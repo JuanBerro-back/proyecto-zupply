@@ -1,0 +1,66 @@
+Actúa como un Ingeniero de Software Principal y Arquitecto Frontend Experto. Estoy desarrollando un proyecto integral llamado "Zupply IA" en REPLIT usando React + Vite + Tailwind CSS + Lucide React.
+
+Necesito que generes el código completo y funcional de la aplicación web. Esta plataforma es un sistema Multi-Rol (B2B) que conecta a Restaurantes con Proveedores, gestionando logística, inventarios, predicciones de IA y costeo.
+
+### ARQUITECTURA DE ROLES Y MÓDULOS DEL PROYECTO:
+
+#### 0. Módulo de Autenticación (Login):
+- **Pantalla de Inicio de Sesión:** Una UI moderna y atractiva donde el usuario ingresa sus credenciales.
+- **Enrutamiento Protegido:** La aplicación inicia aquí. Al iniciar sesión exitosamente (con datos simulados), el sistema define el rol (`restaurante` o `proveedor`) y redirige al panel correspondiente.
+- **Cierre de Sesión:** Un botón global en la barra de navegación para hacer logout y volver a la pantalla de login, permitiendo probar ambos roles fácilmente.
+
+#### A. VISTA DEL RESTAURANTE (Protegido por Rol):
+1. **Dashboard y Contabilidad IA:** Métricas clave, contabilidad de egresos y predicciones de reabastecimiento.
+2. **Recepción, Rastreo y Código de Barras:**
+   - Mapa interactivo (`react-leaflet` con OpenStreetMap en **Bucaramanga**) para ver la ruta de los vehículos del proveedor.
+   - Escáner de Código de Barras (input de texto) para recibir pedidos y sumar stock automáticamente.
+3. **Inventario Inteligente con Fechas de Vencimiento:**
+   - CRUD completo del stock. Cada producto muestra su fecha de vencimiento. 
+   - Alertas de IA rojas para productos próximos a vencerse (sistema FEFO - First Expiring, First Out).
+4. **Gestor de Menú y Costeo Gastronómico Exacto:**
+   - CRUD de recetas. El usuario agrega ingredientes (con sus gramajes). El sistema calcula el `Costo Total de Producción`.
+   - Al ingresar el Precio de Venta (PVP), se calcula el **Porcentaje de Costo de Alimentos (Food Cost %)**: `(Costo Total / PVP) * 100`. 
+   - **Regla de Negocio Estricta:** Alerta verde si el Costo de Alimentos es ≤ 30% (Margen ideal del 70%+). Alerta roja si supera el 35%, sugiriendo subir el PVP para no perder dinero.
+
+#### B. VISTA DEL PROVEEDOR (Protegido por Rol):
+1. **Dashboard de Ventas:** Resumen de pedidos recibidos de los restaurantes, ingresos y métricas.
+2. **Gestión de Pedidos Entrantes:** Panel tipo Kanban o tabla para Aceptar, Preparar y Despachar pedidos.
+3. **Despacho, Flota y Rutas (Logística Activa):**
+   - Vista para despachar pedidos. Selector para asignar un vehículo disponible (ej. "Moto 1 - Placa XYZ", "Furgón Refrigerado").
+   - Mapa (`react-leaflet` en Bucaramanga) mostrando la ubicación de los restaurantes destino para planificar la ruta.
+4. **Inventario de Despacho (con Vencimientos):**
+   - CRUD para que el proveedor gestione su catálogo. Control obligatorio de fechas de vencimiento de lotes.
+
+---
+
+### INSTRUCCIONES ESTRICTAS PARA LA GENERACIÓN DE CÓDIGO (REPLIT)
+
+**REGLA CRÍTICA:** NO utilices marcadores de posición (placeholders) como `// TODO: Agregar lógica` o `/* resto del código */`. Escribe el código de cada archivo de principio a fin, 100% funcional.
+
+Proporcióname el código estructurado para los siguientes archivos, usando Tailwind CSS:
+
+#### 1. `src/data/mockData.js`
+Crea una base de datos simulada relacional muy completa:
+- **Usuarios Simulados:** Credenciales (`username`, `password`, `rol`) para probar el login como restaurante y como proveedor.
+- Datos de inventario y catálogo (incluyendo `fechaVencimiento`).
+- Flota de vehículos de los proveedores.
+- Coordenadas GPS locales en Bucaramanga (ej. Cabecera, Parque San Pío) para restaurantes y conductores.
+- Platos preexistentes con cálculos matemáticos correctos.
+
+#### 2. `src/App.jsx`
+- Configura el estado global principal que maneje la sesión: `isAuthenticated`, `currentUser` y `userRole`.
+- Renderiza condicionalmente `<Login />` si no hay sesión. Si hay sesión, renderiza el Sidebar y las vistas exclusivas dependiendo del rol del usuario.
+
+#### 3. COMPONENTE DE LOGIN (Código completo):
+- `src/components/Login.jsx`: UI de inicio de sesión con validación contra `mockData.js`. Debe incluir visualmente las credenciales de prueba escritas abajo del botón para facilitar la evaluación del proyecto.
+
+#### 4. COMPONENTES CLAVE DEL RESTAURANTE (Código completo):
+- `src/components/RestauranteDashboard.jsx` (Dashboard e Inventario con alertas FEFO).
+- `src/components/RestauranteLogistica.jsx` (Mapa de rastreo en Bucaramanga y escáner de código de barras).
+- `src/components/RestauranteCosteo.jsx` (Gestor de Platos con la matemática estricta de Food Cost <= 30%).
+
+#### 5. COMPONENTES CLAVE DEL PROVEEDOR (Código completo):
+- `src/components/ProveedorDashboard.jsx` (Gestión de pedidos entrantes e inventario de catálogo con vencimientos).
+- `src/components/ProveedorLogistica.jsx` (Mapa local, asignación de vehículos y rutas).
+
+Entrégame los bloques de código separados claramente por el nombre del archivo.
