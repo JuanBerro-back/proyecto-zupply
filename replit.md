@@ -1,10 +1,11 @@
-# [Project name]
+# Zupply IA
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+Plataforma para restaurantes que centraliza pedidos a múltiples proveedores, automatiza contabilidad y usa IA predictiva para gestión de inventarios.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --filter @workspace/api-server run dev` — run the API server (port 8080)
+- `pnpm --filter @workspace/zupply-ia run dev` — run the frontend (port 24613)
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
@@ -14,6 +15,7 @@ _Replace the heading above with the project's name, and this line with one sente
 ## Stack
 
 - pnpm workspaces, Node.js 24, TypeScript 5.9
+- Frontend: React + Vite + Tailwind CSS + shadcn/ui
 - API: Express 5
 - DB: PostgreSQL + Drizzle ORM
 - Validation: Zod (`zod/v4`), `drizzle-zod`
@@ -22,24 +24,30 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `lib/api-spec/openapi.yaml` — OpenAPI contract (source of truth)
+- `lib/db/src/schema/` — Drizzle table definitions (suppliers, reviews, products, orders, inventory, transactions)
+- `artifacts/api-server/src/routes/` — Express route handlers
+- `artifacts/zupply-ia/src/pages/` — React page components
+- `artifacts/zupply-ia/src/components/layout/AppLayout.tsx` — Sidebar layout
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- OpenAPI-first: all types flow from `openapi.yaml` → Orval codegen → React hooks + Zod schemas
+- Inventory predictions are computed server-side (no external ML service), using avgDailyUsage to simulate AI recommendations
+- Confirming an order automatically creates an accounting transaction (expense)
+- Delivering an order auto-increments matching inventory items
+- Dashboard summary endpoint computes all metrics in a single request
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
-
-## User preferences
-
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- **Dashboard**: KPIs, AI stock alerts, top suppliers, monthly spend chart
+- **Pedidos**: Multi-supplier catalog with cart, consolidated checkout
+- **Contabilidad**: Auto-generated expense transactions, cash flow summary
+- **Inventario IA**: Stock status with critical/low/ok badges, on-demand AI predictions
+- **Proveedores**: Supplier directory with contact info, star ratings, review submission
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
-
-## Pointers
-
-- See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details
+- Inventory predictions endpoint (`GET /api/inventory/predictions`) is on-demand — frontend fetches it only when user clicks "Ejecutar predicción IA"
+- Drizzle numeric columns return strings from the DB driver — always `parseFloat()` before use
+- Express 5: wildcard routes need `/{*splat}`, optional params use `/todos{/:id}`

@@ -1,0 +1,46 @@
+Actúa como un Ingeniero de Software Principal y Arquitecto Frontend Experto. Te voy a proporcionar los requerimientos de un proyecto de investigación del SENA llamado "Zupply IA: Centralización de Pedidos Multi-proveedor y Gestión Predictiva de Inventarios con Automatización Contable".
+
+Tu objetivo es generar una aplicación web completa, interactiva y funcional diseñada específicamente para ser montada en REPLIT utilizando la plantilla de React + Vite + Tailwind CSS.
+
+### CONTEXTO DEL PROYECTO (Zupply IA)
+- **Propósito:** Plataforma tecnológica para restaurantes que centraliza la gestión de pedidos a múltiples proveedores, automatiza la contabilidad básica y utiliza un Agente de IA para predecir el reabastecimiento de inventario según patrones históricos de ventas.
+- **Público Objetivo:** Pequeños emprendedores gastronómicos.
+- **Problema que resuelve:** Fragmentación operativa (compras desorganizadas por WhatsApp/llamadas), errores en pedidos, desabastecimiento, falta de control de costos y carencia de herramientas predictivas de demanda.
+
+### MÓDULOS OBLIGATORIOS A DESARROLLAR EN LA APP:
+1. **Dashboard Principal:** Vista de bienvenida que resuma el estado del negocio, alertas de la IA y acceso a los módulos.
+2. **Módulo de Pedidos Multi-proveedor:** Interfaz donde el usuario ve catálogos de diferentes proveedores, añade insumos a un carrito común y consolida las compras de varias fuentes en un único pedido unificado.
+3. **Módulo de Contabilidad Básica Automatizada:** Panel que registre automáticamente los egresos y costos financieros cada vez que se confirma un pedido desde el carrito, mostrando un historial de transacciones y balance de flujo de caja.
+4. **Módulo de Inventario con Agente de IA Predictiva:** Vista de stock actual que simule un Agente de IA analizando datos históricos. Debe mostrar alertas visuales explícitas (ej: "Stock crítico de Queso Mozzarella, se recomienda pedir 15kg según la tendencia del próximo viernes").
+5. **Directorio y Sistema de Puntuación de Proveedores:** Sección donde los restaurantes pueden calificar a los proveedores (estrellas/reseñas) y ver métricas de fiabilidad.
+
+---
+
+### INSTRUCCIONES ESPECÍFICAS PARA REPLIT
+
+Por favor, proporcióname el código completo estructurado para los archivos clave de un proyecto React (Vite) + Tailwind CSS en Replit. 
+
+**REGLA CRÍTICA:** NO utilices marcadores de posición (placeholders) como `// TODO: Agregar lógica` o `/* ... resto del código */`. Escribe los componentes de principio a fin de manera que pueda copiar y pegar directamente en los archivos de Replit.
+
+Por favor, entrégame el código para los siguientes archivos específicos:
+
+#### 1. `src/data/mockData.js`
+Crea un archivo de datos simulados realista y robusto que alimente la aplicación de forma local:
+- Lista de proveedores (verduras, carnes, lácteos) con productos, precios y calificaciones iniciales.
+- Historial sintético de ventas y registros de stock para que la IA simule sus predicciones de forma dinámica.
+
+#### 2. `src/App.jsx`
+- Este será el punto de entrada principal en Replit. Debe contener el estado global de la aplicación (el carrito de compras, el inventario actualizable, el historial contable y el estado de la navegación).
+- Implementa una interfaz con un Sidebar (barra lateral) elegante y responsivo usando Tailwind CSS para navegar entre los 5 módulos sin recargar la página.
+
+#### 3. COMPONENTES CLAVE POR SEPARADO (Escribe el código completo de cada uno):
+- `src/components/Dashboard.jsx` (Métricas clave y alertas urgentes de la IA).
+- `src/components/Pedidos.jsx` (Catálogo multi-proveedor, filtros y carrito reactivo que descuente/añada).
+- `src/components/Contabilidad.jsx` (Tabla de egresos generados dinámicamente y gráficas/barras conceptuales de gastos con Tailwind).
+- `src/components/InventarioIA.jsx` (Control de stock, botón para "Ejecutar predicción de IA" y recomendaciones automáticas de reabastecimiento).
+- `src/components/Proveedores.jsx` (Lista de la red de contactos y formulario interactivo para dejar una reseña/puntuación).
+
+#### 4. `src/index.css` (Para asegurar los estilos en Replit)
+- Incluye las directivas básicas de Tailwind CSS (`@tailwind base;`, etc.) junto con cualquier estilo personalizado necesario para que la interfaz luzca impecable y moderna.
+
+Confirma que has comprendido que este proyecto se ejecutará en Replit y procede a entregar los archivos de código completos uno por uno de manera limpia.

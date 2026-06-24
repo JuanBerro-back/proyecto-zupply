@@ -1,22 +1,32 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Zupply IA API specification
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: dashboard
+    description: Dashboard summary
+  - name: suppliers
+    description: Supplier directory and ratings
+  - name: products
+    description: Product catalog
+  - name: orders
+    description: Multi-supplier orders
+  - name: inventory
+    description: Inventory management with AI predictions
+  - name: accounting
+    description: Automated accounting and transactions
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +34,285 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /dashboard/summary:
+    get:
+      operationId: getDashboardSummary
+      tags: [dashboard]
+      summary: Get dashboard summary metrics
+      responses:
+        "200":
+          description: Dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardSummary"
+
+  /suppliers:
+    get:
+      operationId: listSuppliers
+      tags: [suppliers]
+      summary: List all suppliers
+      responses:
+        "200":
+          description: List of suppliers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Supplier"
+    post:
+      operationId: createSupplier
+      tags: [suppliers]
+      summary: Create a new supplier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SupplierInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Supplier"
+
+  /suppliers/{id}:
+    get:
+      operationId: getSupplier
+      tags: [suppliers]
+      summary: Get a supplier by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Supplier
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Supplier"
+        "404":
+          description: Not found
+
+  /suppliers/{id}/reviews:
+    post:
+      operationId: createSupplierReview
+      tags: [suppliers]
+      summary: Submit a review for a supplier
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReviewInput"
+      responses:
+        "201":
+          description: Review created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Review"
+
+  /products:
+    get:
+      operationId: listProducts
+      tags: [products]
+      summary: List all products, optionally filtered by supplier
+      parameters:
+        - name: supplierId
+          in: query
+          required: false
+          schema:
+            type: ["integer", "null"]
+        - name: category
+          in: query
+          required: false
+          schema:
+            type: ["string", "null"]
+      responses:
+        "200":
+          description: Product list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+
+  /orders:
+    get:
+      operationId: listOrders
+      tags: [orders]
+      summary: List all orders
+      responses:
+        "200":
+          description: Order list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+    post:
+      operationId: createOrder
+      tags: [orders]
+      summary: Create a new consolidated order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderInput"
+      responses:
+        "201":
+          description: Order created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+
+  /orders/{id}:
+    get:
+      operationId: getOrder
+      tags: [orders]
+      summary: Get order details
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Order
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        "404":
+          description: Not found
+
+  /orders/{id}/status:
+    patch:
+      operationId: updateOrderStatus
+      tags: [orders]
+      summary: Update order status
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderStatusUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+
+  /inventory:
+    get:
+      operationId: listInventory
+      tags: [inventory]
+      summary: List all inventory items
+      responses:
+        "200":
+          description: Inventory list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/InventoryItem"
+
+  /inventory/{id}:
+    patch:
+      operationId: updateInventoryItem
+      tags: [inventory]
+      summary: Update an inventory item's stock
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InventoryUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InventoryItem"
+
+  /inventory/predictions:
+    get:
+      operationId: getInventoryPredictions
+      tags: [inventory]
+      summary: Get AI-powered reorder predictions
+      responses:
+        "200":
+          description: AI predictions list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/InventoryPrediction"
+
+  /accounting/transactions:
+    get:
+      operationId: listTransactions
+      tags: [accounting]
+      summary: List all accounting transactions
+      responses:
+        "200":
+          description: Transaction list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Transaction"
+
+  /accounting/summary:
+    get:
+      operationId: getAccountingSummary
+      tags: [accounting]
+      summary: Get cash flow and expense summary
+      responses:
+        "200":
+          description: Accounting summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountingSummary"
+
 components:
   schemas:
     HealthStatus:
@@ -31,6 +320,386 @@ components:
       properties:
         status:
           type: string
-      required:
-        - status
+      required: [status]
 
+    DashboardSummary:
+      type: object
+      properties:
+        totalOrdersThisMonth:
+          type: integer
+        totalSpentThisMonth:
+          type: number
+        activeSuppliers:
+          type: integer
+        criticalStockCount:
+          type: integer
+        pendingOrdersCount:
+          type: integer
+        cashBalance:
+          type: number
+        recentAlerts:
+          type: array
+          items:
+            $ref: "#/components/schemas/Alert"
+        topSuppliers:
+          type: array
+          items:
+            $ref: "#/components/schemas/SupplierSummary"
+        monthlySpend:
+          type: array
+          items:
+            $ref: "#/components/schemas/MonthlySpend"
+      required:
+        - totalOrdersThisMonth
+        - totalSpentThisMonth
+        - activeSuppliers
+        - criticalStockCount
+        - pendingOrdersCount
+        - cashBalance
+        - recentAlerts
+        - topSuppliers
+        - monthlySpend
+
+    Alert:
+      type: object
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+          enum: [critical_stock, pending_order, prediction, info]
+        message:
+          type: string
+        createdAt:
+          type: string
+      required: [id, type, message, createdAt]
+
+    SupplierSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        totalSpent:
+          type: number
+        ordersCount:
+          type: integer
+      required: [id, name, totalSpent, ordersCount]
+
+    MonthlySpend:
+      type: object
+      properties:
+        month:
+          type: string
+        amount:
+          type: number
+      required: [month, amount]
+
+    Supplier:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        category:
+          type: string
+        contactName:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
+        rating:
+          type: number
+        reviewCount:
+          type: integer
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+        reviews:
+          type: array
+          items:
+            $ref: "#/components/schemas/Review"
+      required: [id, name, category, contactName, phone, email, rating, reviewCount, isActive, createdAt]
+
+    SupplierInput:
+      type: object
+      properties:
+        name:
+          type: string
+        category:
+          type: string
+        contactName:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
+      required: [name, category, contactName, phone, email]
+
+    Review:
+      type: object
+      properties:
+        id:
+          type: integer
+        supplierId:
+          type: integer
+        rating:
+          type: integer
+        comment:
+          type: string
+        reviewerName:
+          type: string
+        createdAt:
+          type: string
+      required: [id, supplierId, rating, comment, reviewerName, createdAt]
+
+    ReviewInput:
+      type: object
+      properties:
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+        comment:
+          type: string
+        reviewerName:
+          type: string
+      required: [rating, comment, reviewerName]
+
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+        supplierId:
+          type: integer
+        supplierName:
+          type: string
+        name:
+          type: string
+        category:
+          type: string
+        unit:
+          type: string
+        pricePerUnit:
+          type: number
+        minOrderQty:
+          type: integer
+        isAvailable:
+          type: boolean
+      required: [id, supplierId, supplierName, name, category, unit, pricePerUnit, minOrderQty, isAvailable]
+
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+        status:
+          type: string
+          enum: [pending, confirmed, delivered, cancelled]
+        totalAmount:
+          type: number
+        supplierCount:
+          type: integer
+        createdAt:
+          type: string
+        deliveryDate:
+          type: ["string", "null"]
+        notes:
+          type: ["string", "null"]
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderItem"
+      required: [id, status, totalAmount, supplierCount, createdAt]
+
+    OrderItem:
+      type: object
+      properties:
+        id:
+          type: integer
+        orderId:
+          type: integer
+        productId:
+          type: integer
+        productName:
+          type: string
+        supplierName:
+          type: string
+        quantity:
+          type: integer
+        unit:
+          type: string
+        unitPrice:
+          type: number
+        subtotal:
+          type: number
+      required: [id, orderId, productId, productName, supplierName, quantity, unit, unitPrice, subtotal]
+
+    OrderInput:
+      type: object
+      properties:
+        deliveryDate:
+          type: ["string", "null"]
+        notes:
+          type: ["string", "null"]
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderItemInput"
+      required: [items]
+
+    OrderItemInput:
+      type: object
+      properties:
+        productId:
+          type: integer
+        quantity:
+          type: integer
+      required: [productId, quantity]
+
+    OrderStatusUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [pending, confirmed, delivered, cancelled]
+      required: [status]
+
+    InventoryItem:
+      type: object
+      properties:
+        id:
+          type: integer
+        productId:
+          type: ["integer", "null"]
+        name:
+          type: string
+        category:
+          type: string
+        unit:
+          type: string
+        currentStock:
+          type: number
+        minStock:
+          type: number
+        maxStock:
+          type: number
+        stockStatus:
+          type: string
+          enum: [ok, low, critical]
+        lastUpdated:
+          type: string
+        avgDailyUsage:
+          type: number
+      required: [id, name, category, unit, currentStock, minStock, maxStock, stockStatus, lastUpdated, avgDailyUsage]
+
+    InventoryUpdate:
+      type: object
+      properties:
+        currentStock:
+          type: number
+        minStock:
+          type: number
+        maxStock:
+          type: number
+      required: []
+
+    InventoryPrediction:
+      type: object
+      properties:
+        inventoryItemId:
+          type: integer
+        itemName:
+          type: string
+        currentStock:
+          type: number
+        unit:
+          type: string
+        predictedDemand:
+          type: number
+        recommendedOrderQty:
+          type: number
+        daysUntilStockout:
+          type: ["integer", "null"]
+        urgency:
+          type: string
+          enum: [high, medium, low]
+        recommendation:
+          type: string
+        trend:
+          type: string
+          enum: [increasing, stable, decreasing]
+      required:
+        - inventoryItemId
+        - itemName
+        - currentStock
+        - unit
+        - predictedDemand
+        - recommendedOrderQty
+        - urgency
+        - recommendation
+        - trend
+
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: integer
+        orderId:
+          type: ["integer", "null"]
+        type:
+          type: string
+          enum: [expense, income, adjustment]
+        amount:
+          type: number
+        description:
+          type: string
+        category:
+          type: string
+        date:
+          type: string
+      required: [id, type, amount, description, category, date]
+
+    AccountingSummary:
+      type: object
+      properties:
+        cashBalance:
+          type: number
+        totalExpensesThisMonth:
+          type: number
+        totalExpensesLastMonth:
+          type: number
+        expensesByCategory:
+          type: array
+          items:
+            $ref: "#/components/schemas/ExpenseCategory"
+        monthlyTrend:
+          type: array
+          items:
+            $ref: "#/components/schemas/MonthlySpend"
+      required:
+        - cashBalance
+        - totalExpensesThisMonth
+        - totalExpensesLastMonth
+        - expensesByCategory
+        - monthlyTrend
+
+    ExpenseCategory:
+      type: object
+      properties:
+        category:
+          type: string
+        amount:
+          type: number
+        percentage:
+          type: number
+      required: [category, amount, percentage]

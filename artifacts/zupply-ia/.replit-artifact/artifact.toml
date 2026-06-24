@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Zupply IA"
+version = "1.0.0"
+id = "artifacts/zupply-ia"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24613
+
+[services.development]
+run = "pnpm --filter @workspace/zupply-ia run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/zupply-ia", "run", "build" ]
+publicDir = "artifacts/zupply-ia/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24613"
+BASE_PATH = "/"
