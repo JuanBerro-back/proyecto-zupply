@@ -7,7 +7,12 @@
  */
 
 export interface InventoryUpdate {
+  name?: string;
+  category?: string;
+  unit?: string;
   currentStock?: number;
   minStock?: number;
   maxStock?: number;
+  avgDailyUsage?: number;
+  costPerUnit?: number;
 }

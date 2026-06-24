@@ -8,6 +8,7 @@ import Pedidos from "@/pages/Pedidos";
 import Contabilidad from "@/pages/Contabilidad";
 import Inventario from "@/pages/Inventario";
 import Proveedores from "@/pages/Proveedores";
+import CosteoPlatos from "@/pages/CosteoPlatos";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ function Router() {
         <Route path="/contabilidad" component={Contabilidad} />
         <Route path="/inventario" component={Inventario} />
         <Route path="/proveedores" component={Proveedores} />
+        <Route path="/costeo" component={CosteoPlatos} />
         <Route component={NotFound} />
       </Switch>
     </AppLayout>

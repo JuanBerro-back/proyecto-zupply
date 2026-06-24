@@ -186,15 +186,32 @@ export interface InventoryItem {
   currentStock: number;
   minStock: number;
   maxStock: number;
+  costPerUnit: number;
   stockStatus: InventoryItemStockStatus;
   lastUpdated: string;
   avgDailyUsage: number;
 }
 
+export interface InventoryItemInput {
+  name: string;
+  category: string;
+  unit: string;
+  currentStock: number;
+  minStock: number;
+  maxStock: number;
+  avgDailyUsage: number;
+  costPerUnit: number;
+}
+
 export interface InventoryUpdate {
+  name?: string;
+  category?: string;
+  unit?: string;
   currentStock?: number;
   minStock?: number;
   maxStock?: number;
+  avgDailyUsage?: number;
+  costPerUnit?: number;
 }
 
 export type InventoryPredictionUrgency = typeof InventoryPredictionUrgency[keyof typeof InventoryPredictionUrgency];

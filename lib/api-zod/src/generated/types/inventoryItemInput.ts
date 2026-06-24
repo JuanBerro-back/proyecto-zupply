@@ -5,20 +5,14 @@
  * Zupply IA API specification
  * OpenAPI spec version: 0.1.0
  */
-import type { InventoryItemStockStatus } from './inventoryItemStockStatus';
 
-export interface InventoryItem {
-  id: number;
-  /** @nullable */
-  productId?: number | null;
+export interface InventoryItemInput {
   name: string;
   category: string;
   unit: string;
   currentStock: number;
   minStock: number;
   maxStock: number;
-  costPerUnit: number;
-  stockStatus: InventoryItemStockStatus;
-  lastUpdated: string;
   avgDailyUsage: number;
+  costPerUnit: number;
 }

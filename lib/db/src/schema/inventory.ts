@@ -12,6 +12,7 @@ export const inventoryTable = pgTable("inventory", {
   minStock: numeric("min_stock", { precision: 10, scale: 2 }).notNull().default("0"),
   maxStock: numeric("max_stock", { precision: 10, scale: 2 }).notNull().default("0"),
   avgDailyUsage: numeric("avg_daily_usage", { precision: 10, scale: 2 }).notNull().default("0"),
+  costPerUnit: numeric("cost_per_unit", { precision: 10, scale: 2 }).notNull().default("0"),
   lastUpdated: timestamp("last_updated", { withTimezone: true }).notNull().defaultNow(),
 });
 

@@ -244,6 +244,23 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/InventoryItem"
+    post:
+      operationId: createInventoryItem
+      tags: [inventory]
+      summary: Create a new inventory item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InventoryItemInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InventoryItem"
 
   /inventory/{id}:
     patch:
@@ -269,6 +286,19 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/InventoryItem"
+    delete:
+      operationId: deleteInventoryItem
+      tags: [inventory]
+      summary: Delete an inventory item
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
 
   /inventory/predictions:
     get:
@@ -593,6 +623,8 @@ components:
           type: number
         maxStock:
           type: number
+        costPerUnit:
+          type: number
         stockStatus:
           type: string
           enum: [ok, low, critical]
@@ -600,16 +632,47 @@ components:
           type: string
         avgDailyUsage:
           type: number
-      required: [id, name, category, unit, currentStock, minStock, maxStock, stockStatus, lastUpdated, avgDailyUsage]
+      required: [id, name, category, unit, currentStock, minStock, maxStock, costPerUnit, stockStatus, lastUpdated, avgDailyUsage]
 
-    InventoryUpdate:
+    InventoryItemInput:
       type: object
       properties:
+        name:
+          type: string
+        category:
+          type: string
+        unit:
+          type: string
         currentStock:
           type: number
         minStock:
           type: number
         maxStock:
+          type: number
+        avgDailyUsage:
+          type: number
+        costPerUnit:
+          type: number
+      required: [name, category, unit, currentStock, minStock, maxStock, avgDailyUsage, costPerUnit]
+
+    InventoryUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        category:
+          type: string
+        unit:
+          type: string
+        currentStock:
+          type: number
+        minStock:
+          type: number
+        maxStock:
+          type: number
+        avgDailyUsage:
+          type: number
+        costPerUnit:
           type: number
       required: []
 

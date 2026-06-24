@@ -13,6 +13,7 @@ export * from './dashboardSummary';
 export * from './expenseCategory';
 export * from './healthStatus';
 export * from './inventoryItem';
+export * from './inventoryItemInput';
 export * from './inventoryItemStockStatus';
 export * from './inventoryPrediction';
 export * from './inventoryPredictionTrend';

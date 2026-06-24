@@ -1,0 +1,50 @@
+Actúa como un Ingeniero de Software Principal y Arquitecto Frontend Experto. Estoy desarrollando un proyecto llamado "Zupply IA" en REPLIT usando React + Vite + Tailwind CSS + Lucide React.
+
+Necesito que actualices y generes el código de la aplicación web integrando nuevos requerimientos avanzados. 
+
+### CONTEXTO DEL PROYECTO ACTUALIZADO
+Zupply IA es una plataforma para restaurantes que centraliza pedidos multi-proveedor. A los requerimientos anteriores (Dashboard, Contabilidad IA), ahora se suman funciones de logística en tiempo real, gestión total de inventario y costeo inteligente de recetas.
+
+### NUEVOS MÓDULOS Y LÓGICA A DESARROLLAR:
+
+1. **Rastreo en Tiempo Real y Recepción por Código de Barras:**
+   - En la vista de pedidos, debe haber un simulador de "Tracking" que muestre en qué etapa está el repartidor (ej. un mapa simulado con CSS o una barra de progreso animada).
+   - Para marcar un pedido como "Entregado", el usuario debe usar un input de "Escáner de Código de Barras". Al ingresar el código correcto del pedido (ej. simulando el escaneo físico), el pedido se completa y los productos ingresan automáticamente al módulo de inventario.
+
+2. **Inventario de Gestión Total (CRUD Completo):**
+   - El restaurante no solo ve las predicciones de la IA, sino que tiene control total. 
+   - Implementa un CRUD (Crear, Leer, Actualizar, Eliminar) para el inventario, permitiendo agregar productos manualmente, editar cantidades o eliminar ítems.
+
+3. **Calculadora Inteligente de Costeo de Platos:**
+   - Un nuevo módulo donde el restaurante puede "Crear un Plato" (ej. Hamburguesa Especial).
+   - El usuario agrega ingredientes desde su inventario, define los gramajes (cantidades a usar) y, basándose en el costo del inventario por gramo, la plataforma debe calcular el costo total de producción y sugerir un precio de venta al público para mantener un buen margen de ganancia.
+
+4. **Sistema de Puntuación Algorítmica (Reseñas y Visibilidad):**
+   - Los restaurantes deben poder calificar los pedidos recibidos de los proveedores y dejar comentarios.
+   - Aplica una lógica en la vista de "Proveedores/Catálogo" donde los productos o proveedores con mejor calificación aparezcan primero y destaquen visualmente, simulando un algoritmo de recomendación.
+
+---
+
+### INSTRUCCIONES ESTRICTAS PARA REPLIT
+
+**REGLA CRÍTICA:** NO utilices marcadores de posición (placeholders) como `// TODO: Agregar lógica` o `/* ... resto del código */`. Escribe el código de cada archivo de principio a fin para que pueda copiarlo y pegarlo directamente en mi Replit y funcione al instante.
+
+Proporcióname el código estructurado para los siguientes archivos:
+
+#### 1. `src/data/mockData.js`
+Actualiza los datos simulados para incluir:
+- Códigos de barras (strings numéricos) asociados a cada pedido pendiente.
+- Reseñas previas que afecten la puntuación de los proveedores.
+- Datos de costo unitario/por gramo en los ítems de inventario para que la calculadora de platos funcione.
+
+#### 2. `src/App.jsx`
+- Mantén la estructura de navegación con el Sidebar, pero agrega las rutas de estado para los nuevos módulos ("Tracking/Recepción" y "Costeo de Platos").
+- Asegura que el estado global maneje el CRUD del inventario y la actualización tras el escaneo del código de barras.
+
+#### 3. COMPONENTES CLAVE (Genera el código completo de cada uno):
+- `src/components/TrackingRecepcion.jsx`: Interfaz con el input para el código de barras y la visualización del estado del pedido.
+- `src/components/InventarioCRUD.jsx`: Tabla interactiva con botones para añadir, editar y eliminar stock manualmente.
+- `src/components/CosteoPlatos.jsx`: Formulario dinámico para agregar ingredientes, definir gramajes y visualizar la tarjeta de "Precio Sugerido" generada por la plataforma.
+- `src/components/ProveedoresRed.jsx`: Lista de proveedores que se ordene reactivamente basándose en las puntuaciones, con un modal funcional para dejar una nueva reseña de 1 a 5 estrellas.
+
+Confirma que has comprendido todas las reglas y entrégame el código de cada archivo paso a paso, asegurando un diseño UI/UX espectacular con Tailwind CSS.

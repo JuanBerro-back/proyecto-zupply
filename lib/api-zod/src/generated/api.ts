@@ -268,11 +268,27 @@ export const ListInventoryResponseItem = zod.object({
   "currentStock": zod.number(),
   "minStock": zod.number(),
   "maxStock": zod.number(),
+  "costPerUnit": zod.number(),
   "stockStatus": zod.enum(['ok', 'low', 'critical']),
   "lastUpdated": zod.string(),
   "avgDailyUsage": zod.number()
 })
 export const ListInventoryResponse = zod.array(ListInventoryResponseItem)
+
+
+/**
+ * @summary Create a new inventory item
+ */
+export const CreateInventoryItemBody = zod.object({
+  "name": zod.string(),
+  "category": zod.string(),
+  "unit": zod.string(),
+  "currentStock": zod.number(),
+  "minStock": zod.number(),
+  "maxStock": zod.number(),
+  "avgDailyUsage": zod.number(),
+  "costPerUnit": zod.number()
+})
 
 
 /**
@@ -283,9 +299,14 @@ export const UpdateInventoryItemParams = zod.object({
 })
 
 export const UpdateInventoryItemBody = zod.object({
+  "name": zod.string().optional(),
+  "category": zod.string().optional(),
+  "unit": zod.string().optional(),
   "currentStock": zod.number().optional(),
   "minStock": zod.number().optional(),
-  "maxStock": zod.number().optional()
+  "maxStock": zod.number().optional(),
+  "avgDailyUsage": zod.number().optional(),
+  "costPerUnit": zod.number().optional()
 })
 
 export const UpdateInventoryItemResponse = zod.object({
@@ -297,9 +318,18 @@ export const UpdateInventoryItemResponse = zod.object({
   "currentStock": zod.number(),
   "minStock": zod.number(),
   "maxStock": zod.number(),
+  "costPerUnit": zod.number(),
   "stockStatus": zod.enum(['ok', 'low', 'critical']),
   "lastUpdated": zod.string(),
   "avgDailyUsage": zod.number()
+})
+
+
+/**
+ * @summary Delete an inventory item
+ */
+export const DeleteInventoryItemParams = zod.object({
+  "id": zod.coerce.number()
 })
 
 
