@@ -1,0 +1,55 @@
+Actúa como un Ingeniero de Software Principal y Arquitecto Frontend Experto. Estoy desarrollando un proyecto integral llamado "Zupply IA" en REPLIT usando React + Vite + Tailwind CSS + Lucide React.
+
+Necesito que generes el código completo y funcional de la aplicación web. Esta plataforma está diseñada para centralizar la logística, compras, predicción de inventario mediante IA y costeo para restaurantes. 
+
+### ARQUITECTURA Y MÓDULOS DEL PROYECTO:
+
+1. **Dashboard y Contabilidad IA:**
+   - Panel principal con métricas clave (pedidos, gastos, ahorros).
+   - Recomendaciones generadas por IA para reabastecimiento basadas en el historial.
+
+2. **Logística, Rastreo Tipo DiDi y Código de Barras (Contexto Local):**
+   - **Mapa en Tiempo Real:** Vista de pedidos con un mapa interactivo (usa `react-leaflet` con OpenStreetMap). La simulación de las rutas debe estar ambientada en **Bucaramanga, Colombia** (usa coordenadas aproximadas de zonas como Cabecera y el parque San Pío para los puntos de origen y destino).
+   - **Datos del Conductor:** Una tarjeta superpuesta que muestre la foto, nombre, calificación del conductor, tipo de vehículo (ej. Moto de carga, Furgón) y placa.
+   - **Recepción por Código de Barras:** Input de "Escáner" donde, al ingresar el código numérico del pedido, este pase a "Entregado" y sume el stock al inventario.
+
+3. **Inventario de Gestión Total (IA + CRUD):**
+   - Control total del usuario mediante un CRUD. Agregar productos, editar cantidades, costo por unidad de medida (gramos/litros) y eliminar ítems.
+   - Alertas de IA sobre el estado del stock.
+
+4. **Gestor de Menú y Costeo Exacto de Platos (CRUD):**
+   - **Base de Datos de Platos:** Una vista que muestre en tarjetas o tabla los platos ya creados y almacenados en el sistema (ej. "Hamburguesa Especial", "Mute Santandereano").
+   - **Edición y Creación:** Al seleccionar un plato existente, se debe abrir un formulario para editarlo. También debe haber una opción para crear uno nuevo desde cero.
+   - **Matemáticas Exactas:** El formulario permite agregar ingredientes del inventario con sus gramajes. El sistema debe calcular el costo de producción exacto: `Costo Total = Suma (Gramaje * Costo_por_gramo_del_inventario)`.
+   - **Margen de Ganancia:** El usuario ingresa el Precio de Venta al Público (PVP) deseado, y el sistema calcula dinámicamente el margen exacto usando la fórmula: `Margen % = ((PVP - Costo Total) / PVP) * 100`. Debe sugerir ajustes si el margen cae por debajo del 30%.
+
+5. **Red de Proveedores y Algoritmo de Puntuación:**
+   - Catálogo de proveedores. El restaurante puede calificar de 1 a 5 estrellas los pedidos recibidos.
+   - Algoritmo que reordene la lista colocando a los proveedores con mejor calificación promedio al principio.
+
+---
+
+### INSTRUCCIONES ESTRICTAS PARA LA GENERACIÓN DE CÓDIGO (REPLIT)
+
+**REGLA CRÍTICA:** NO utilices marcadores de posición (placeholders) como `// TODO: Agregar lógica` o `/* resto del código */`. Escribe el código de cada archivo de principio a fin, 100% funcional.
+
+Proporcióname el código estructurado para los siguientes archivos usando Tailwind CSS para una UI espectacular:
+
+#### 1. `src/data/mockData.js`
+Crea una base de datos simulada robusta y relacional:
+- Proveedores, inventario (con costo exacto por unidad/gramo) y pedidos pendientes con `barcode`.
+- **Datos de Logística Locales:** Perfiles de conductores y coordenadas GPS `[lat, lng]` situadas en Bucaramanga (ej. Cabecera, San Pío) para el mapa de Leaflet.
+- **Platos Preexistentes:** Un array de objetos con recetas ya creadas, que incluyan sus ingredientes (referenciando el inventario), gramajes, costo calculado y precio de venta. Incluye al menos un plato de gastronomía local.
+
+#### 2. `src/App.jsx`
+- Configura el estado global para sincronizar Inventario y Platos. (Si el costo de un ítem del inventario cambia, el costo del plato debe reflejarlo).
+- Barra lateral (Sidebar) para: Dashboard, Logística (Mapa), Inventario, Gestor de Menú y Proveedores.
+
+#### 3. COMPONENTES CLAVE (Código completo por cada uno):
+- `src/components/Dashboard.jsx`: Resumen de métricas.
+- `src/components/TrackingRecepcion.jsx`: Mapa interactivo de Leaflet en Bucaramanga, tarjeta del conductor y escáner de código de barras.
+- `src/components/InventarioCRUD.jsx`: Tabla interactiva CRUD para el stock.
+- `src/components/CosteoPlatos.jsx`: Interfaz dividida. A la izquierda, la lista de platos guardados. A la derecha (o en modal), el creador/editor de platos donde se ensamblan ingredientes, se ve el costo en tiempo real y el cálculo exacto del margen de ganancia.
+- `src/components/ProveedoresRed.jsx`: Lista reactiva ordenada por puntuación con sistema de reseñas.
+
+Entrégame los bloques de código separados por el nombre del archivo.
