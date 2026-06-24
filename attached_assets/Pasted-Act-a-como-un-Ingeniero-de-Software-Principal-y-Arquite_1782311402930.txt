@@ -1,0 +1,51 @@
+Actúa como un Ingeniero de Software Principal y Arquitecto DevOps Experto. Estoy desarrollando un proyecto de software integral y portátil llamado "Zupply IA". Actualmente está planteado en Replit, pero requiero que la estructura del código sea un estándar absoluto de React + Vite + Tailwind CSS para poder descargarlo, comprimirlo en un archivo .rar/.zip, ejecutarlo en mi máquina local (localhost) o desplegarlo en plataformas externas como Vercel, Netlify o un VPS.
+
+Necesito que generes la estructura completa del proyecto y el código 100% funcional de cada archivo, de principio a fin, sin omitting de líneas ni placeholders (prohibido usar // TODO o // ... resto del código).
+
+### CONFIGURACIÓN DE ENTORNO LOCAL Y PORTABILIDAD
+
+Para asegurar que el proyecto corra instantáneamente en localhost tras descargar los archivos, debes proveer los siguientes archivos de configuración con sus dependencias exactas:
+1. `package.json`: Configurado con scripts estándar de Vite (`dev`, `build`, `preview`) y todas las dependencias necesarias (`react`, `react-dom`, `lucide-react`, `leaflet`, `react-leaflet`, `tailwindcss`, `postcss`, `autoprefixer`).
+2. `vite.config.js`: Configuración limpia para el empaquetado de React.
+3. `tailwind.config.js` y `postcss.config.js`: Configuración completa para procesar los estilos en cualquier entorno local.
+4. `index.html`: El punto de entrada en la raíz del proyecto para Vite.
+5. `README.md`: Instrucciones técnicas paso a paso de cómo abrir una terminal, ejecutar `npm install` para instalar módulos de Node, y `npm run dev` para levantar el servidor local en http://localhost:5173.
+
+---
+
+### ARQUITECTURA DE REQUERIMIENTOS B2B (SISTEMA MULTI-ROL)
+
+El código fuente dentro de `src/` debe implementar las siguientes lógicas y componentes integrados en un estado global dinámico:
+
+#### 0. Autenticación y Control de Acceso (Login):
+- `src/components/Login.jsx`: Pantalla de inicio de sesión moderna. Valida contra las credenciales simuladas en la base de datos. Define si el usuario entra como 'restaurante' o 'proveedor'. Incluye botón de Logout en el Header.
+
+#### A. MÓDULOS DE LA VISTA DEL RESTAURANTE:
+1. `src/components/RestauranteDashboard.jsx`: Métricas de negocio, alertas financieras generadas por IA e inventario con alertas de caducidad.
+2. `src/components/RestauranteLogistica.jsx`: 
+   - Mapa interactivo (`react-leaflet` con OpenStreetMap) centrado en Bucaramanga, Colombia. Muestra rutas simuladas de entrega pasando por zonas clave como Cabecera y el parque San Pío.
+   - Tarjeta flotante con foto, nombre del conductor, tipo de vehículo y placa.
+   - Input de "Escáner de Código de Barras" para procesar códigos numéricos de pedidos; al ingresar el código correcto, el pedido pasa a "Entregado" y actualiza reactivamente el inventario del restaurante.
+3. `src/components/RestauranteCosteo.jsx`: 
+   - CRUD completo de recetas y platos almacenados en la base de datos (ej. "Mute Santandereano", "Hamburguesa Especial"). Permite listar, crear y editar platos.
+   - Lógica matemática exacta: El costo de cada plato se calcula sumando el gramaje de sus ingredientes multiplicado por el costo por gramo en inventario.
+   - Indicador estricto de Food Cost %: `(Costo Total / PVP) * 100`. Si el costo de los ingredientes supera el 30% del precio de venta elegido por el usuario, muestra alerta roja exigiendo ajustar el PVP o reducir costos. Si es ≤ 30%, muestra indicador verde de alta rentabilidad.
+
+#### B. MÓDULOS DE LA VISTA DEL PROVEEDOR:
+1. `src/components/ProveedorDashboard.jsx`: Resumen de ventas, panel Kanban de gestión de pedidos entrantes de los restaurantes (Pendiente, Preparando, Despachado) y control de stock del catálogo con fechas de vencimiento.
+2. `src/components/ProveedorLogistica.jsx`: Interfaz de despacho donde el proveedor asigna un vehículo disponible de su flota (Motos, furgones con placas específicas) a un pedido y visualiza en el mapa de Bucaramanga la ubicación del restaurante destino.
+
+#### C. BASE DE DATOS LOCAL SIMULADA:
+- `src/data/mockData.js`: Contiene usuarios de prueba, inventarios iniciales con propiedades explícitas de `fechaVencimiento`, historial de pedidos con strings de códigos de barras, coordenadas geográficas `[lat, lng]` reales de Bucaramanga, flota de vehículos y recetas preexistentes con las matemáticas de costos ya validadas.
+
+---
+
+### ESTRUCTURA DE SALIDA REQUERIDA
+
+Por favor, organiza tu respuesta entregando el código completo de cada archivo, indicando claramente su ruta para que pueda replicar la estructura de carpetas de forma idéntica en mi entorno:
+
+- **Raíz del Proyecto:** `package.json`, `vite.config.js`, `tailwind.config.js`, `postcss.config.js`, `index.html`, `README.md`.
+- **Estructura src:** `src/main.jsx`, `src/index.css`, `src/App.jsx`, `src/data/mockData.js`.
+- **Estructura Componentes:** `src/components/Login.jsx`, `src/components/RestauranteDashboard.jsx`, `src/components/RestauranteLogistica.jsx`, `src/components/RestauranteCosteo.jsx`, `src/components/ProveedorDashboard.jsx`, `src/components/ProveedorLogistica.jsx`.
+
+Comienza generando los archivos de la raíz y avanza de manera estructurada con todo el código fuente listo para producción local.
