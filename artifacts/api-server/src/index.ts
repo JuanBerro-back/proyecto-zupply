@@ -1,13 +1,8 @@
 import app from "./app";
 import { logger } from "./lib/logger";
 
-const rawPort = process.env["PORT"];
-
-if (!rawPort) {
-  throw new Error(
-    "PORT environment variable is required but was not provided.",
-  );
-}
+// Si process.env["PORT"] no existe, usamos "10000" por defecto
+const rawPort = process.env["PORT"] || "10000";
 
 const port = Number(rawPort);
 
