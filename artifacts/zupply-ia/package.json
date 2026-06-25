@@ -75,6 +75,7 @@
     "zod": "catalog:"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "leaflet": "^1.9.4",
     "react-leaflet": "^5.0.0"
   }

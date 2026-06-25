@@ -1,0 +1,58 @@
+Actúa como un Ingeniero de Software Principal, Arquitecto Cloud y Diseñador UI/UX Senior. Estoy desarrollando un sistema ERP/SaaS B2B modular para restaurantes y proveedores llamado "Zupply IA (Surtesoft)" en REPLIT utilizando React + Vite + Tailwind CSS + Lucide React.
+
+Necesito que generes la estructura completa del proyecto y el código 100% funcional de cada archivo, incorporando un sistema de comandas de mesa, un módulo de facturación con formato de ticket tradicional y una integración real para envío de correos electrónicos desde el frontend.
+
+### REGLA CRÍTICA DE GENERACIÓN
+Queda TERMINANTEMENTE PROHIBIDO el uso de marcadores de posición (placeholders) como `// TODO: Agregar lógica`, `/* ... resto del código ... */` o resúmenes de bloques. Necesito que escribas cada archivo completo, línea por línea, para que el sistema sea completamente operativo y ejecutable tanto en Replit como de forma local (localhost) al descargarlo en un archivo .rar.
+
+---
+
+### 1. NUEVAS REGLAS DE NEGOCIO Y COMPONENTES OPERATIVOS
+
+#### A. Módulo de Comandas de Mesa y Pedidos (Vista Restaurante - Gerente)
+- **Nueva Pestaña "Pedidos y Comandas":** Una interfaz de control de sala dividida en dos secciones:
+  1. *Formulario de Toma de Pedido:* Permite capturar el nombre del cliente/mesero, el número de mesa, la fecha actual (forzada por sistema a la fecha de hoy) y la selección de platos creados del menú.
+  2. *Panel de Comandas Activas:* Al enviar el pedido, se genera una tarjeta de comanda visualmente idéntica a una comanda de cocina profesional que incluye: Número de comanda correlativo, Fecha y Hora, Nombre de quien atiende, Número de Mesa, Lista de Platos solicitados y un badge destacado en amarillo: **"PENDIENTE DE PAGO"**.
+- **Acción de Cierre:** Cada comanda tiene un botón para "Proceder al Pago", el cual abre el módulo de caja para liquidar la mesa.
+
+#### B. Módulo de Facturación Dual Estilizada (Formato de Tirilla POS)
+- Al liquidar la comanda, el sistema permite elegir entre **Factura POS Común** o **Factura Electrónica**.
+- **Diseño Visual de la Factura (UI Premium):** NO debe renderizarse a pantalla completa. Debe aparecer centrado como un modal que emula un ticket físico de impresora térmica (ancho de 80mm estilizado en CSS).
+- **Contenido del Ticket:**
+  - Encabezado con el Nombre del Restaurante ("Zupply IA - Sabores de Bucaramanga"), NIT simulado, Dirección y Teléfono.
+  - Número de Serial Único de Facturación Consecutivo y Código CUFE/QR simulado en diseño para la factura electrónica.
+  - Desglose detallado de los platos consumidos por la mesa, subtotales, cálculo del IVA (19% o Impoconsumo 8%) y Total Neto.
+  - Datos del Cliente (Nombre, Cédula/NIT, Correo Electrónico).
+
+#### C. Integración de Envío de Correo Electrónico Real desde Replit
+- Para enviar la Factura Electrónica de forma real al correo electrónico personal del usuario o del cliente, el componente debe integrar el SDK de **EmailJS** (`@emailjs/browser`) o una petición estructurada `fetch` hacia un endpoint público de correos como **Formspree** o **EmailJS**.
+- Al presionar "Emitir y Enviar Factura Electrónica", el sistema debe capturar el contenido del ticket, estructurar el cuerpo del correo en HTML limpio y disparar la API para que llegue directamente al buzón del correo ingresado en el formulario.
+- Muestra un estado de carga (`enviando...`) y un Toast de éxito tras la confirmación de la API: *"✓ Factura Electrónica enviada exitosamente a [correo_usuario]"*.
+
+---
+
+### 2. CONFIGURACIÓN TÉCNICA DE PORTABILIDAD (ENTORNO LOCAL)
+
+Proporciona los archivos de configuración en la raíz con sus dependencias estándar para garantizar que el proyecto pueda descargarse, comprimirse en un `.rar`, e instalarse en cualquier máquina local (`localhost`) con `npm install` y ejecutarse con `npm run dev`:
+
+- `package.json`: Configurado con scripts de Vite y dependencias (`react`, `react-dom`, `lucide-react`, `leaflet`, `react-leaflet`, `tailwindcss`, `postcss`, `autoprefixer`, `@emailjs/browser`).
+- `tailwind.config.js` y `postcss.config.js`: Estructura de procesamiento de estilos.
+- `index.html` y `README.md`: Punto de entrada e instrucciones completas de instalación local.
+
+---
+
+### 3. ESTRUCTURA DE ARCHIVOS REQUERIDA EN LA RESPUESTA
+
+Organiza el código entregando el contenido completo de los archivos en el siguiente orden:
+1. **Configuraciones Raíz:** `package.json`, `tailwind.config.js`, `postcss.config.js`, `index.html`, `README.md`.
+2. **Núcleo y Datos:** `src/main.jsx`, `src/index.css`, `src/data/mockData.js` (Estructura relacional JSON con usuarios, roles de Administrador, Gerente, Empleado, Proveedor, Domiciliario, inventarios y platos locales preconfigurados).
+3. **Estado Global de la App:** `src/App.jsx` (Sincroniza el estado de las comandas activas, las mesas ocupadas, la contabilidad de la caja registradora tras el pago y la sesión del usuario).
+4. **Componentes de Restaurante:**
+   - `src/components/Login.jsx` (Autenticación y Registro unificado).
+   - `src/components/RestauranteDashboard.jsx` (Métricas financieras, balance de caja e inventario FEFO).
+   - `src/components/RestauranteComandas.jsx` (**NUEVO:** Pantalla de toma de pedidos de mesas, renderizado de tarjetas de comanda con estado "Pendiente de Pago" y lógica de envío de datos a caja).
+   - `src/components/FacturaTicket.jsx` (**NUEVO:** Modal del ticket de tirilla térmica compacta y elegante. Integra la función de envío de correo electrónico real usando la API de EmailJS/Formspree enviando los datos de la comanda procesada).
+   - `src/components/RestauranteCosteo.jsx` (CRUD de platos con fórmula estricta de Food Cost ≤ 30%).
+5. **Componentes de Proveedor:** - `src/components/ProveedorDashboard.jsx` y `src/components/ProveedorLogistica.jsx` (Mapeo de rutas de domiciliarios por GPS/IMEI en Bucaramanga).
+
+Genera una interfaz de usuario espectacular, intuitiva, con paleta de colores moderna, excelente contraste y tipografías que simulen un sistema POS premium de alta fidelidad.
