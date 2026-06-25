@@ -36,7 +36,7 @@ const PERMS: Record<SubRole, string[]> = {
     "prov:dashboard", "prov:logistica", "prov:inventario",
     "prov:inventario:write", "prov:precios",
   ],
-  domiciliario: ["prov:logistica"],
+  domiciliario: ["prov:logistica", "prov:gps"],
 };
 
 // ── Simulated user database ───────────────────────────────────────────────

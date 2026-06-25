@@ -15,6 +15,7 @@ import Facturacion from "@/pages/restaurante/Facturacion";
 import ProveedorDashboard from "@/pages/proveedor/ProveedorDashboard";
 import ProveedorLogistica from "@/pages/proveedor/ProveedorLogistica";
 import ProveedorInventario from "@/pages/proveedor/ProveedorInventario";
+import DomiciliarioGPS from "@/pages/proveedor/DomiciliarioGPS";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
@@ -83,6 +84,9 @@ function ProveedorRouter() {
         </Route>
         <Route path="/mi-inventario">
           {() => <Guarded perm="prov:inventario"><ProveedorInventario /></Guarded>}
+        </Route>
+        <Route path="/gps">
+          {() => <Guarded perm="prov:gps"><DomiciliarioGPS /></Guarded>}
         </Route>
         <Route component={NotFound} />
       </Switch>

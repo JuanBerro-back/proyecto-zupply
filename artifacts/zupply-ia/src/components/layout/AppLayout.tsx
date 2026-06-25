@@ -1,7 +1,7 @@
 import { Link, useLocation } from "wouter";
 import {
   LayoutDashboard, ShoppingCart, Calculator, Package, Users,
-  UtensilsCrossed, Truck, Warehouse, LogOut, Receipt, Lock,
+  UtensilsCrossed, Truck, Warehouse, LogOut, Receipt, Lock, Navigation,
 } from "lucide-react";
 import { useAuth, ROLE_LABELS, ROLE_COLORS } from "@/context/AuthContext";
 
@@ -26,6 +26,7 @@ const PROVEEDOR_NAV: NavItem[] = [
   { name: "Panel Principal",   href: "/",              icon: LayoutDashboard, perm: "prov:dashboard"  },
   { name: "Logística & Flota", href: "/logistica",     icon: Truck,           perm: "prov:logistica"  },
   { name: "Mi Inventario",     href: "/mi-inventario", icon: Warehouse,       perm: "prov:inventario" },
+  { name: "Consola GPS",       href: "/gps",           icon: Navigation,      perm: "prov:gps"        },
 ];
 
 export function AppLayout({ children }: { children: React.ReactNode }) {

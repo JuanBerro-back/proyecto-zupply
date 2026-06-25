@@ -1,0 +1,65 @@
+Actúa como un Ingeniero de Software Principal, Arquitecto en Ciberseguridad y Experto en UI/UX. Estoy desarrollando un sistema ERP/SaaS B2B modular y de alta portabilidad llamado "Zupply IA (Surtesoft)" en REPLIT utilizando React + Vite + Tailwind CSS + Lucide React + React-Leaflet (OpenStreetMap).
+
+Necesito que generes la estructura completa del proyecto y el código 100% funcional de cada archivo, de principio a fin, de manera limpia, modular y robusta.
+
+### REGLA CRÍTICA DE GENERACIÓN
+Queda TERMINANTEMENTE PROHIBIDO el uso de marcadores de posición (placeholders) como `// TODO: Agregar lógica`, `/* ... resto del código ... */` o resúmenes de bloques. Necesito que escribas cada archivo completo, línea por línea, para que el sistema sea completamente operativo y ejecutable tanto en Replit como de forma local (localhost) al descargarlo en un archivo .rar.
+
+---
+
+### 1. ARQUITECTURA DE SEGURIDAD (RBAC), REGISTRO Y ESQUEMA RELACIONAL
+
+El sistema debe implementar un control de accesos basado en roles (RBAC) adaptado al contexto de cada módulo. Debe permitir el Registro (Sign Up) de nuevos comercios y el Inicio de Sesión (Login) mapeando dinámicamente los permisos.
+
+#### Módulo 0: Autenticación, Registro y Base de Datos Relacional
+- **Registro (Sign Up):** Interfaz limpia para crear cuentas eligiendo el contexto principal: "Registrar Restaurante" o "Registrar Proveedor".
+- **Inicio de Sesión (Login):** Valida credenciales contra un esquema JSON relacional simulado en los datos locales. Debe mostrar abajo del botón un panel con credenciales de prueba para todos los roles para facilitar la evaluación.
+- **Esquema de Datos Relacional (JSON en mockData.js):** Diseña estructuras separadas para `usuarios`, `roles`, `contextos` y una tabla de unión `usuario_roles_contexto` (UserId, ContextId, RoleId). Esto permite modelar que un usuario tenga ciertos permisos CRUD en un módulo y restricciones estrictas en otro.
+
+---
+
+### 2. CONTEXTOS, ROLES Y REGLAS DE NEGOCIO EN LAS VISTAS
+
+#### CONTEXTO A: PORTAL DEL RESTAURANTE (Módulo Cliente)
+- **Rol 1: Administrador:** Acceso total. Gestión de personal, reportes financieros y auditorías de inventario.
+- **Rol 2: Gerente (Operaciones y Caja):**
+  - **Permisos CRUD:** Puede ver el inventario global y crear solicitudes de pedido a proveedores. Puede leer y editar los pedidos de los clientes del restaurante.
+  - **Módulo de Facturación Dual:** Capacidad de procesar cobros en el punto de venta generando dos tipos de comprobante:
+    1. *Factura POS:* Venta rápida de mostrador.
+    2. *Factura Electrónica:* Formulario obligatorio vinculado al NIT, Cédula o correo electrónico (Gmail) del cliente.
+  - **Recepción de Pedidos (Nuevo Flujo de Validación):** Cuenta con una interfaz de entrada ("Escáner de código"). Para recibir la mercancía del proveedor, **el Gerente debe digitar obligatoriamente el Código de Factura que le da el domiciliario**. Al ingresarlo correctamente, el estado cambia a "Entregado", se procesa el egreso contable y el stock se suma al inventario del restaurante.
+- **Rol 3: Empleado (Cocina/Barra):** Permiso exclusivo de lectura sobre inventarios y recetas. No puede facturar, ver finanzas ni editar stock.
+- **Gestor de Costeo e Inventario (Matemática Estricta):** - Almacena recetas (ej. "Mute Santandereano", "Hamburguesa Especial"). Calcula el costo de producción exacto: `Suma (Gramaje * Costo por gramo en inventario)`.
+  - Evalúa el `Food Cost % = (Costo Total / PVP) * 100`. Si el Food Cost % es ≤ 30% (Margen ≥ 70%), muestra un badge verde de alta rentabilidad. Si supera el 35%, bloquea o advierte en rojo obligando a subir el PVP.
+  - Control FEFO: Alertas visuales críticas (rojas) para insumos con fechas de vencimiento próximas.
+
+#### CONTEXTO B: PORTAL DE PROVEEDORES Y LOGÍSTICA (Módulo Proveedor)
+- **Rol 1: Proveedor (Admin de Catálogo):** Gestiona los productos mayoristas, controla stock (con fechas de vencimiento de lotes), visualiza pedidos entrantes en un panel Kanban (`Pendiente` -> `En Preparación` -> `Despachado`) y gestiona la flota vehicular asignando rutas en el mapa.
+- **Rol 2: Encargado de Envíos / Domiciliario (Logística Activa por Hardware GPS):**
+  - **Consola Móvil del Domiciliario:** Interfaz optimizada para teléfonos celulares que utiliza la **API de Geolocalización real de HTML5** para transmitir las coordenadas `[lat, lng]` en vivo en un mapa de **Bucaramanga, Colombia** (pasando por Cabecera, San Pío, Centro).
+  - **Ciberseguridad del Dispositivo:** Solicita un número de "IMEI Simulado o ID de Dispositivo" para el enlace de red seguro.
+  - **Cierre de Ciclo Logístico (Código de Factura):** La pantalla del domiciliario **debe mostrar de forma prominente el código único de la factura/pedido (ej. FAC-8942)**. El domiciliario debe proveer este código al Gerente del restaurante al llegar para que la entrega sea validada físicamente en el sistema.
+
+---
+
+### 3. CONFIGURACIÓN TÉCNICA DE PORTABILIDAD (ENTORNO LOCAL)
+
+Proporciona los archivos de configuración en la raíz con sus dependencias estándar para garantizar que el proyecto pueda descargarse, comprimirse en un `.rar`, e instalarse en cualquier máquina local (`localhost`) con `npm install` y ejecutarse con `npm run dev`:
+
+- `package.json`: Configurado con scripts de Vite y dependencias (`react`, `react-dom`, `lucide-react`, `leaflet`, `react-leaflet`, `tailwindcss`, `postcss`, `autoprefixer`).
+- `vite.config.js`, `tailwind.config.js` y `postcss.config.js`: Estructura de compilación y procesamiento de estilos CSS limpios.
+- `index.html` y `README.md`: Instrucciones y punto de montaje estándar.
+
+---
+
+### 4. ESTRUCTURA DE ARCHIVOS REQUERIDA EN LA RESPUESTA
+
+Organiza el código entregando el contenido completo de los archivos en el siguiente orden:
+1. **Configuraciones Raíz:** `package.json`, `vite.config.js`, `tailwind.config.js`, `postcss.config.js`, `index.html`, `README.md`.
+2. **Núcleo y Datos:** `src/main.jsx`, `src/index.css` (con soporte e inyección de estilos para las capas de Leaflet), `src/data/mockData.js` (tablas JSON de usuarios, roles, contexto intermedio, inventarios con vencimientos, coordenadas base de Bucaramanga, flota y recetas).
+3. **Estado Global de la App:** `src/App.jsx` (sincroniza las sesiones, el rol logueado, los pedidos mutados por el domiciliario y la actualización de stock del restaurante).
+4. **Componentes Transversales:** `src/components/Login.jsx` (Formulario dual de autenticación y registro).
+5. **Componentes de Restaurante:** `src/components/RestauranteDashboard.jsx` (Métricas + Facturación POS/Electrónica), `src/components/RestauranteLogistica.jsx` (Mapa de rastreo de pedidos + Input manual de validación por código de factura), `src/components/RestauranteCosteo.jsx` (CRUD de platos con fórmula estricta de Food Cost).
+6. **Componentes de Proveedor:** `src/components/ProveedorDashboard.jsx` (Kanban de pedidos y catálogo FEFO), `src/components/ProveedorLogistica.jsx` (Asignación de vehículos de la flota) y `src/components/DomiciliarioGPS.jsx` (Consola para el celular del domiciliario con API de GPS real, visualización de IMEI seguro y la caja de texto destacada con el código de factura para entregar al gerente).
+
+Genera una interfaz de usuario espectacular, con transiciones suaves, diseño responsivo móvil-escritorio usando Tailwind CSS y un acabado visual premium de nivel empresarial.
