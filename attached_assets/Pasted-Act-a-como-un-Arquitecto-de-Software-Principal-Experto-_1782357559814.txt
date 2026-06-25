@@ -1,0 +1,75 @@
+Actúa como un Arquitecto de Software Principal, Experto en Ciberseguridad, Bases de Datos Relacionales y Diseñador UI/UX Senior. Estoy desarrollando un sistema ERP/SaaS modular B2B de alta portabilidad llamado "Zupply IA (Surtesoft)" en REPLIT utilizando React + Vite + Tailwind CSS + Lucide React + React-Leaflet (OpenStreetMap).
+
+Necesito que diseñes el sistema completo, incluyendo una matriz de control de accesos basada en roles (RBAC) adaptada al contexto de cada módulo, la estructura de la base de datos relacional simulada y el código 100% funcional de la aplicación web.
+
+### REGLA CRÍTICA DE GENERACIÓN
+Queda TERMINANTEMENTE PROHIBIDO el uso de marcadores de posición (placeholders) como `// TODO: Agregar lógica`, `/* ... resto del código ... */` o resúmenes de código. Necesito que escribas cada archivo completo, línea por línea, para que el sistema sea completamente operativo y ejecutable tanto en Replit como en mi máquina local (localhost) al descargarlo en un archivo comprimido .rar.
+
+---
+
+### 1. MATRIZ DE SEGURIDAD (RBAC), MULTI-TENANT Y ROLES DEL SISTEMA
+
+El sistema debe permitir el Registro de Usuarios (Sign Up) e Inicio de Sesión (Login) diferenciando dinámicamente entre dos contextos organizacionales principales mediante un esquema de base de datos relacional flexible.
+
+#### Módulo 0: Autenticación, Registro y Estructura RBAC
+- **Registro (Sign Up):** Pantalla de registro donde un nuevo usuario puede crear su cuenta seleccionando su contexto: "Unirse como Restaurante" o "Unirse como Proveedor".
+- **Inicio de Sesión (Login):** Valida las credenciales contra la base de datos simulada y carga el contexto y rol exacto del usuario.
+- **Diseño de Base de Datos Relacional (Mapeo Dinámico):** En el archivo de datos, debes estructurar un esquema relacional (representado en JSON) con las tablas `usuarios`, `roles`, `contextos` y una tabla intermedia `usuario_roles_contexto` (UserId, ContextId, RoleId). Esto debe permitir que un usuario pueda tener un rol operativo en un módulo, pero restricciones de lectura/escritura en otro.
+
+#### CONTEXTO 1: PORTAL DEL RESTAURANTE (Módulo Cliente)
+*   **Rol 1: Administrador:** Acceso total absoluto a la configuración, nómina, CRUD total de inventario, recetas y reportes contables globales.
+*   **Rol 2: Gerente (Gerente de Operaciones):** 
+    - **Permisos CRUD:** Puede leer el inventario total y crear pedidos de reabastecimiento a proveedores. Puede leer y editar los pedidos de los clientes del restaurante.
+    - **Módulo de Facturación Dual:** Capacidad de procesar cobros y generar dos tipos de comprobantes:
+        1. *Factura Estándar Tipo POS:* Para ventas rápidas de mostrador.
+        2. *Factura Electrónica:* Formulario obligatorio vinculado formalmente al NIT, Cédula o correo electrónico (Gmail) del cliente final.
+*   **Rol 3: Empleado (Cocina/Barra):** Permiso exclusivo de Lectura sobre el inventario y recetas. No puede modificar precios, ver balances financieros ni generar facturas electrónicas.
+
+#### CONTEXTO 2: PORTAL DE PROVEEDORES Y LOGÍSTICA (Módulo Proveedor)
+*   **Rol 1: Proveedor (Admin de Catálogo):** CRUD completo del catálogo de productos disponibles para despacho, control de precios mayoristas, visualización de pedidos entrantes de los restaurantes y gestión de la flota vehicular.
+*   **Rol 2: Encargado de Envíos / Domiciliario:**
+    - **Permiso Operativo:** Puede leer la lista de pedidos asignados a su ruta y cambiar su estado de "En Preparación" a "Despachado" y "Entregado".
+    - **Restricción Crítica:** NO puede ver costos de producción del proveedor, modificar precios del catálogo ni editar datos de facturación de los clientes.
+
+---
+
+### 2. ARQUITECTURA DE FUNCIONALIDADES OPERATIVAS Y LÓGICA DE NEGOCIO
+
+1. **Logística y Rastreo en Tiempo Real por IMEI (Bucaramanga):**
+   - El componente de logística debe simular el rastreo en vivo de un Domiciliario a través del GPS "vinculado al IMEI de su teléfono celular". 
+   - Utiliza `react-leaflet` centrado en **Bucaramanga, Colombia**, simulando rutas de entrega en tiempo real que pasen por zonas clave como Cabecera, el Parque San Pío y el Centro.
+   - Tanto el restaurante (que espera el pedido) como el proveedor (que vigila su flota) deben poder probar y ver este movimiento en vivo en el mapa.
+   - El flujo se completa mediante un **Escáner de Código de Barras** (input de texto de captura rápida); al ingresar el código del pedido por parte del restaurante, el estado pasa a "Entregado" y se cargan las existencias.
+
+2. **Inventario Inteligente y Alertas de Vencimiento (FEFO):**
+   - Ambas vistas (Restaurante y Proveedor) deben manejar la propiedad `fechaVencimiento` en sus lotes de inventario. 
+   - El sistema debe priorizar el inventario bajo la metodología FEFO y disparar alertas visuales preventivas en color rojo si un insumo está a pocos días de caducar.
+
+3. **Gestor de Menú y Costeo Gastronómico Exacto:**
+   - CRUD interactivo para listar, crear y editar platos del menú del restaurante (ej. "Mute Santandereano", "Hamburguesa Especial").
+   - **Fórmula Matemática Inflexible:** El costo de producción del plato se calcula de forma exacta: `Costo Total = Sumatoria de (Gramaje Insumo * Costo por Gramo en Inventario)`.
+   - **Cálculo del Food Cost %:** Al definir el PVP (Precio de Venta), el sistema evalúa: `Food Cost % = (Costo Total / PVP) * 100`. 
+   - Si el costo de los alimentos es ≤ 30%, muestra un badge verde de alta rentabilidad (Margen ≥ 70%). Si supera el 35%, bloquea o advierte con un banner rojo obligando a ajustar el PVP para proteger las utilidades del negocio.
+
+---
+
+### 3. CONFIGURACIÓN TÉCNICA DE PORTABILIDAD (ENTORNO LOCAL)
+
+Proporciona la estructura exacta de archivos para asegurar que el proyecto corra instantáneamente en un entorno local (`localhost`) tras ser descargado de Replit y descomprimido:
+
+- `package.json`: Scripts estándar de Vite y dependencias exactas (`react`, `react-dom`, `lucide-react`, `leaflet`, `react-leaflet`, `tailwindcss`, `postcss`, `autoprefixer`).
+- `tailwind.config.js` y `postcss.config.js`: Configuraciones de procesamiento de estilos CSS.
+- `index.html`: Punto de entrada que monte el nodo principal de React.
+- `README.md`: Instrucciones técnicas completas para ejecutar `npm install` y `npm run dev` en la terminal local.
+
+---
+
+### 4. ESTRUCTURA DE ARCHIVOS FUENTE REQUERIDA
+
+Genera el código modular organizado de la siguiente manera:
+- **Datos y Núcleo:** `src/data/mockData.js` (Tablas relacionales JSON de RBAC, inventarios con vencimientos, coordenadas de Bucaramanga y flota), `src/index.css` (Estilos base + soporte Leaflet) y `src/App.jsx` (Manejo del estado global de sesión, registros, e inventarios cruzados).
+- **Componentes Transversales:** `src/components/Login.jsx` (Pantalla dual de Login, Registro y visualización de credenciales de prueba de los diferentes roles).
+- **Componentes Restaurante:** `src/components/RestauranteDashboard.jsx` (Métricas + Facturación POS/Electrónica por NIT/Email), `src/components/RestauranteLogistica.jsx` (Rastreo por IMEI y escáner), `src/components/RestauranteCosteo.jsx` (CRUD de Platos y fórmulas exactas de Food Cost).
+- **Componentes Proveedor:** `src/components/ProveedorDashboard.jsx` (Kanban de pedidos y alertas de vencimiento por lotes), `src/components/ProveedorLogistica.jsx` (Gestión de rutas de domiciliarios y asignación de vehículos).
+
+Desarrolla el sistema con una interfaz limpia, moderna, con tipografía legible y paleta de colores corporativa de alto impacto. Comienza entregando los archivos de configuración y avanza de forma metódica con los componentes.
