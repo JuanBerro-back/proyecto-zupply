@@ -1,5 +1,5 @@
 export default {
-  schema: "../../src/schema/index.ts", // Esto sube dos niveles (fuera de db, fuera de lib)
+  schema: "../../src/schema/index.ts", // <- Dos saltos hacia atrás para llegar a la raíz
   driver: 'pg',
   dbCredentials: {
     connectionString: process.env.DATABASE_URL!,
