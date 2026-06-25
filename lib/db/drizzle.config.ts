@@ -1,5 +1,6 @@
 export default {
-  schema: "./src/schema/index.ts", // Al estar ambos en lib/db, es una ruta directa
+  schema: "./src/schema/index.ts",
+  out: "./drizzle", // <--- ¡Añade esto! Le dice a Drizzle dónde buscar los archivos .sql
   driver: 'pg',
   dbCredentials: {
     connectionString: process.env.DATABASE_URL!,
